@@ -1,7 +1,3 @@
-<div align="center">
-  <img src="/pokemon.png" height="64px" style="text-align: center">
-</div>
-
 # Compose Pokédex
 
 <div align="center">
@@ -9,5 +5,9 @@
 </div>
 
 
-
 Desktop toy app that I've made to learn JetBrains Compose
+
+<div align="center">
+  <img src="/pokemon.png" height="64px" style="text-align: center">
+</div>
+
