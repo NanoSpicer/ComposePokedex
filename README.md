@@ -1,10 +1,10 @@
-<div style="display: flex; flex-direction: row; justify-content: center">
+<div align="center">
   <img src="/pokemon.png" height="64px" style="text-align: center">
 </div>
 
 # Compose Pokédex
 
-<div style="display: flex; flex-direction: row; justify-content: center">
+<div align="center">
   <img src="/screenshot.JPG" height="200px" >
 </div>
 
