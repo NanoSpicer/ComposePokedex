@@ -5,7 +5,7 @@
 # Compose Pokédex
 
 <div align="center">
-  <img src="/screenshot.JPG" height="200px" >
+  <img src="/screenshot.JPG"  >
 </div>
 
 
