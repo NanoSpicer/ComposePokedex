@@ -1,3 +1,7 @@
 # Compose Pokedex
-![App Screenshot](/screenshot.JPG)
+![App Screenshot]()
+
+<img src="/screenshot.JPG" height="200px" style="text-align: center">
+
+
 Desktop toy app that I've made to learn JetBrains Compose
