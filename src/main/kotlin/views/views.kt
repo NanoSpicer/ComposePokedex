@@ -2,6 +2,7 @@ package views
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -19,18 +20,18 @@ import model.Pokemon
 @Composable
 fun PokemonUI(poke: Pokemon, onClick: (Pokemon) -> Unit) {
     val image = imageFromUrl(poke.imageUrl)
-    val rowModifs =
-        Modifier
-            .padding(16.dp, vertical = 8.dp)
-            .fillMaxWidth()
+    val rowModifs = Modifier.background(poke.types.first().getColor()).clickable { onClick(poke) }
 
     Surface(
-        modifier = rowModifs,
+        modifier =
+        Modifier
+            .padding(16.dp, vertical = 8.dp)
+            .fillMaxWidth(),
         shape= RoundedCornerShape(8.dp),
         border = BorderStroke(0.7.dp, Color.LightGray),
         elevation = 8.dp,
     ) {
-        Row(Modifier.clickable { onClick(poke) })  {
+        Row(rowModifs)  {
             Column(Modifier.align(Alignment.CenterVertically).padding(4.dp)){
                 image
                     ?.let { Image(image, modifier = Modifier.preferredHeight(64.dp)) }

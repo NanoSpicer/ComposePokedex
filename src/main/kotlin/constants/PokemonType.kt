@@ -8,27 +8,31 @@ enum class PokemonType {
     Ground, Fairy, Fighting, Psychic,
     Rock, Steel, Ice, Ghost, Dragon, Dark;
 
-    fun fromString(str: String): PokemonType? = when(str.toLowerCase(Locale.ROOT)){
-        "grass" -> Grass
-        "poison" -> Poison
-        "fire" -> Fire
-        "flying" -> Flying
-        "water" -> Water
-        "bug" -> Bug
-        "normal" -> Normal
-        "electric" -> Electric
-        "ground" -> Ground
-        "fairy" -> Fairy
-        "fighting" -> Fighting
-        "psychic" -> Psychic
-        "rock" -> Rock
-        "steel" -> Steel
-        "ice" -> Ice
-        "ghost" -> Ghost
-        "dragon" -> Dragon
-        "dark" -> Dark
-        else -> null
+    companion object {
+        fun fromString(str: String): PokemonType? = when(str.toLowerCase(Locale.ROOT)){
+            "grass" -> Grass
+            "poison" -> Poison
+            "fire" -> Fire
+            "flying" -> Flying
+            "water" -> Water
+            "bug" -> Bug
+            "normal" -> Normal
+            "electric" -> Electric
+            "ground" -> Ground
+            "fairy" -> Fairy
+            "fighting" -> Fighting
+            "psychic" -> Psychic
+            "rock" -> Rock
+            "steel" -> Steel
+            "ice" -> Ice
+            "ghost" -> Ghost
+            "dragon" -> Dragon
+            "dark" -> Dark
+            else -> null
+        }
     }
+
+
 
     fun getColor() = when(this) {
         Grass  -> AppColors.lightGreen

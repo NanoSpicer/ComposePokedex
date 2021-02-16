@@ -2,6 +2,7 @@ package viewmodel
 
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
+import constants.PokemonType as PokemonTypeUI
 import model.Pokemon as PokemonModel
 import me.sargunvohra.lib.pokekotlin.client.PokeApiClient
 
@@ -19,7 +20,14 @@ class PokeViewModel(
                     .results.map {
                         async {
                             val poke = pokeApi.getPokemon(it.id)
-                            poke.run { PokemonModel(name.capitalize(), id, sprites.frontDefault) }
+                            poke.run {
+                                PokemonModel(
+                                    name.capitalize(),
+                                    id,
+                                    sprites.frontDefault,
+                                    poke.types.mapNotNull { PokemonTypeUI.fromString(it.type.name) }
+                                )
+                            }
                         }
                     }
                     .awaitAll()
