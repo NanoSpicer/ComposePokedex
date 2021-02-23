@@ -8,8 +8,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
+import constants.AppColors
 import me.sargunvohra.lib.pokekotlin.client.PokeApiClient
 import model.Pokemon
+import utils.inPairs
 import viewmodel.PokeViewModel
 import views.PokemonUI
 import java.io.File
@@ -19,7 +21,7 @@ val pokeVM = PokeViewModel(PokeApiClient())
 
 fun main() = Window(
     title = "Pokédex",
-    size = IntSize(300, 600),
+    size = IntSize(500, 600),
     centered = false,
     icon = ImageIO.read((File("pokemon.png")))
 ) {
@@ -29,28 +31,20 @@ fun main() = Window(
 }
 
 @Composable fun MainScreen() = Box (modifier = Modifier.fillMaxHeight()){
-    PokeList(pokeVM)
-}
-
-
-@Composable fun BoxScope.PokeList(vm: PokeViewModel) {
-    var snackbarData by remember { mutableStateOf<Pokemon?>(null) }
-    val verticalState = rememberScrollState(0f)
-    val pokes by vm.pokemon.collectAsState(null)
+    val verticalState = rememberScrollState(0)
+    val pokes by pokeVM.pokemon.collectAsState(null)
     Column (
-        modifier = Modifier.fillMaxHeight().verticalScroll(verticalState).fillMaxWidth(),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
+        modifier =
+        Modifier
+            .fillMaxHeight().fillMaxWidth()
+            .verticalScroll(verticalState),
     ) {
 
         when {
-            pokes == null -> CircularProgressIndicator(Modifier.preferredSize(64.dp))
+            pokes == null -> CircularProgressIndicator(Modifier.size(64.dp))
             pokes!!.isEmpty() -> Text("No pokes to show :(!")
-            else -> for (poke in pokes.orEmpty()) {
-                PokemonUI(poke) {
-                    println(it)
-                    snackbarData = it
-                }
+            else -> PokeList(pokes.orEmpty()) {
+                println(it)
             }
         }
 
@@ -59,16 +53,22 @@ fun main() = Window(
         modifier = Modifier.fillMaxHeight().align(Alignment.CenterEnd),
         adapter = rememberScrollbarAdapter(verticalState)
     )
+}
 
-    snackbarData?.let {
-        Snackbar(
-            modifier = Modifier.padding(16.dp, 8.dp).align(Alignment.BottomCenter),
-            action = { Button(onClick = {snackbarData = null}) { Text("Hide") } }
-        ) {
-            Text("${it.pokedexIndex}.- ${it.pokemonName}")
+@Composable
+fun PokeList(list: List<Pokemon>, onClick: (Pokemon) -> Unit) {
+
+    for ((first, second) in list.inPairs()) {
+        Row(modifier = Modifier.fillMaxWidth())  {
+            Column(Modifier.fillMaxWidth(0.5f)) { pokemonOrNothing(first, onClick) }
+            Column(Modifier.fillMaxWidth()) { pokemonOrNothing(second, onClick) }
         }
     }
 }
 
-
+@Composable
+fun pokemonOrNothing(poke: Pokemon?, onClick: (Pokemon) -> Unit)  {
+    poke
+        ?.let{ PokemonUI(it, onClick) }
+}
 
