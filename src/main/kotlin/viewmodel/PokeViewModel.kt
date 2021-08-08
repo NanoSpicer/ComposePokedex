@@ -16,7 +16,7 @@ class PokeViewModel(
         flow {
             val pokes = coroutineScope {
                 pokeApi
-                    .getPokemonList(0, 151)
+                    .getPokemonList(0, 11)
                     .results.map {
                         async {
                             val poke = pokeApi.getPokemon(it.id)

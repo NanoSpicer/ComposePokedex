@@ -16,6 +16,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import imageFromUrl
 import model.Pokemon
+import style.Style
 
 @Composable
 fun PokemonUI(poke: Pokemon, onClick: (Pokemon) -> Unit) {
@@ -23,19 +24,16 @@ fun PokemonUI(poke: Pokemon, onClick: (Pokemon) -> Unit) {
     val rowModifs = Modifier.background(poke.types.first().getColor()).clickable { onClick(poke) }
 
     Surface(
-        modifier =
-        Modifier
-            .padding(16.dp, vertical = 8.dp)
-            .fillMaxWidth(),
-        shape= RoundedCornerShape(8.dp),
+        modifier = Modifier.padding(8.dp).fillMaxWidth(0.5f),
+        shape= Style.shape,
         border = BorderStroke(0.7.dp, Color.LightGray),
         elevation = 8.dp,
     ) {
         Row(rowModifs)  {
             Column(Modifier.align(Alignment.CenterVertically).padding(4.dp)){
                 image
-                    ?.let { Image(image, modifier = Modifier.preferredHeight(64.dp)) }
-                    ?: CircularProgressIndicator(Modifier.preferredHeight(64.dp))
+                    ?.let { Image(image, "Pokemon Sprite", modifier = Modifier.height(64.dp)) }
+                    ?: CircularProgressIndicator(Modifier.height(64.dp))
             }
             Spacer(Modifier.padding(8.dp, 0.dp))
             Column(Modifier.align(Alignment.CenterVertically)) { Text(poke.pokemonName) }
