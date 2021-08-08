@@ -5,20 +5,16 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.painter.BitmapPainter
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.*
-import me.sargunvohra.lib.pokekotlin.client.PokeApiClient
 import model.Pokemon
+import utils.inPairs
 import viewmodel.PokeViewModel
 import views.PokemonUI
-import java.io.File
-import javax.imageio.ImageIO
 import kotlin.system.exitProcess
 
-val pokeVM = PokeViewModel(PokeApiClient())
+val pokeVM = PokeViewModel()
 
 fun onExit() {
     exitProcess(0)
@@ -51,23 +47,25 @@ fun main() = application {
     val verticalState = rememberScrollState(0)
     val pokes by vm.pokemon.collectAsState(null)
     Column (
-        modifier = Modifier.fillMaxHeight().verticalScroll(verticalState).fillMaxWidth(),
+        modifier =
+        Modifier
+            .fillMaxSize()
+            .verticalScroll(verticalState),
     ) {
-        Row {
-            when {
-                pokes == null -> CircularProgressIndicator(Modifier.size(64.dp))
-                pokes!!.isEmpty() -> Text("No pokes to show :(!")
-                else -> for (poke in pokes.orEmpty()) {
-
-                    PokemonUI(poke) {
-                        println(it)
-                        snackbarData = it
+        when {
+            pokes == null -> CircularProgressIndicator(Modifier.size(64.dp))
+            pokes!!.isEmpty() -> Text("No pokes to show :(!")
+            else -> for (pokePair in pokes.orEmpty().inPairs()) {
+                Row(Modifier.fillMaxWidth()) {
+                    pokePair.toList().filterNotNull().forEach { poke ->
+                        PokemonUI(Modifier.weight(1f), poke) {
+                            println(it)
+                            snackbarData = it
+                        }
                     }
                 }
             }
         }
-
-
     }
     VerticalScrollbar(
         modifier = Modifier.fillMaxHeight().align(Alignment.CenterEnd),

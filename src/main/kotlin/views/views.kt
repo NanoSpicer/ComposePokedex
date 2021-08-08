@@ -19,12 +19,12 @@ import model.Pokemon
 import style.Style
 
 @Composable
-fun PokemonUI(poke: Pokemon, onClick: (Pokemon) -> Unit) {
+fun PokemonUI(modifier: Modifier = Modifier, poke: Pokemon, onClick: (Pokemon) -> Unit) {
     val image = imageFromUrl(poke.imageUrl)
     val rowModifs = Modifier.background(poke.types.first().getColor()).clickable { onClick(poke) }
 
     Surface(
-        modifier = Modifier.padding(8.dp).fillMaxWidth(0.5f),
+        modifier = modifier.padding(8.dp),
         shape= Style.shape,
         border = BorderStroke(0.7.dp, Color.LightGray),
         elevation = 8.dp,
@@ -32,7 +32,7 @@ fun PokemonUI(poke: Pokemon, onClick: (Pokemon) -> Unit) {
         Row(rowModifs)  {
             Column(Modifier.align(Alignment.CenterVertically).padding(4.dp)){
                 image
-                    ?.let { Image(image, "Pokemon Sprite", modifier = Modifier.height(64.dp)) }
+                    ?.let { Image(image, "${poke.pokemonName}'s sprite", modifier = Modifier.height(64.dp)) }
                     ?: CircularProgressIndicator(Modifier.height(64.dp))
             }
             Spacer(Modifier.padding(8.dp, 0.dp))
